@@ -1,12 +1,13 @@
-const express = require('express');
-const os = require('os');
-const app = express();
-const port = 3000;
+const http = require('http');
 
-app.get('/', (req, res) => {
-  res.send(`Adres IP serwera: ${os.networkInterfaces().eth0[0].address}<br>Nazwa serwera: ${os.hostname()}<br>Wersja aplikacji: ${process.env.npm_package_version}`);
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.write(`Server IP address: ${req.socket.localAddress}\n`);
+  res.write(`Server hostname: ${req.headers.host}\n`);
+  res.write(`Application version: 1.0.0\n`);
+  res.end();
 });
 
-app.listen(port, () => {
-  console.log(`Aplikacja działa na porcie ${port}`);
+server.listen(3000, () => {
+  console.log('Server started on port 3000');
 });
